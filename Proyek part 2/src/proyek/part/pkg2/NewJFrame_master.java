@@ -7,9 +7,12 @@ package proyek.part.pkg2;
 
 
 
+import java.awt.event.KeyEvent;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Stack;
+import java.util.StringTokenizer;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -57,7 +60,7 @@ public class NewJFrame_master extends javax.swing.JFrame {
         data = new String[row][col+1];
         columnName = new Object[col+1];
 
-         for (int i = 0; i < col+1; i++) {
+         for (int i = 0; i <= col; i++) {
              if(i==0){
                  columnName[i]="";
              }
@@ -70,13 +73,13 @@ public class NewJFrame_master extends javax.swing.JFrame {
          }
         
          for (int i = 0; i <row; i++) {
-            for (int j = 0; j <col; j++) {
+            for (int j = 0; j <=col; j++) {
                 data[i][j]="";
             }
         }
          
         for (int i = 0; i <row; i++) {
-            for (int j = 0; j <col; j++) {
+            for (int j = 0; j <=col; j++) {
                 
                 if(j==0){
                     data[i][j]=(i+1)+"";
@@ -97,10 +100,44 @@ public class NewJFrame_master extends javax.swing.JFrame {
         
     }
     
-    public void concat(int inputRow, int inputColumn, int selectedFirstRow, int selectedFirstColumn, int selectedSecondRow, int selectedSecondColumn ){
-        String tempFirst = jTable_bilangan.getValueAt(selectedFirstRow, selectedFirstColumn).toString();
-        String tempSecond = jTable_bilangan.getValueAt(selectedSecondRow, selectedSecondColumn).toString();
-        data[inputRow][inputColumn] = tempFirst.concat(tempSecond);
+    public void concat( int row1, int col1, int row2, int col2 ){
+        String temp1 = jTable_bilangan.getValueAt(row1, col1)+"";
+        String temp2 = jTable_bilangan.getValueAt(row2, col2)+"";
+        String hasil = temp1 + temp2;
+        
+        
+        for (int j = 1; j <= colCount; j++) {
+            for (int i = 0; i < rowCount; i++) {
+                if(i==row && j==col){
+                    data[i][j]=hasil;
+                }
+            }
+        }
+        
+    }
+    
+    public static boolean isOperator (char c){
+        return c == '+' || c=='-' || c=='*' || c=='/' || c=='^';
+    }
+    
+    public static int postfixHierarchy( char ch){
+        
+            switch (ch)
+            {        
+                             
+        case '+':
+        case '-':
+            return 1;
+      
+        case '*':
+        case '/':
+            return 2;
+      
+        case '^':
+            return 3;
+        }
+        
+        return -1;
     }
 
     /**
@@ -157,7 +194,7 @@ public class NewJFrame_master extends javax.swing.JFrame {
             }
         });
 
-        jButton_loadTable.setText("Load Table");
+        jButton_loadTable.setText("LOAD TABLE");
         jButton_loadTable.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_loadTableActionPerformed(evt);
@@ -174,7 +211,7 @@ public class NewJFrame_master extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1528, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton_apply)
-                        .addGap(260, 260, 260)
+                        .addGap(208, 208, 208)
                         .addComponent(jButton_loadTable))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -197,10 +234,13 @@ public class NewJFrame_master extends javax.swing.JFrame {
                     .addComponent(jSpinner_col, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSpinner_row, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton_apply)
-                    .addComponent(jButton_loadTable))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton_apply))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(5, 5, 5)
+                        .addComponent(jButton_loadTable)))
                 .addContainerGap(151, Short.MAX_VALUE))
         );
 
@@ -215,33 +255,6 @@ public class NewJFrame_master extends javax.swing.JFrame {
         loadTable();
     }//GEN-LAST:event_jButton_applyActionPerformed
 
-    private void jButton_loadTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_loadTableActionPerformed
-        // TODO add your handling code here:
-        loadTable();
-    }//GEN-LAST:event_jButton_loadTableActionPerformed
-
-    private void jTable_bilanganKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable_bilanganKeyReleased
-        // TODO add your handling code here:
-        this.row = jTable_bilangan.getSelectedRow();
-        this.col = jTable_bilangan.getSelectedColumn();
-
-        if(row!=-1 && col!=-1){
-            String value = (String) jTable_bilangan.getValueAt(row, col);
-        
-            if(!value.isEmpty()){
-                 data[row][col]= (String) jTable_bilangan.getValueAt(row, col);
-                 
-            }
-        }
-        
-        for (int j = 1; j < colCount; j++) {
-            for (int i = 0; i < rowCount; i++) {
-                data[i][j]=jTable_bilangan.getValueAt(i, j).toString();
-            }
-        }
-        System.out.println(row + " "+col);
-    }//GEN-LAST:event_jTable_bilanganKeyReleased
-
     private void jTable_bilanganMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_bilanganMouseClicked
         // TODO add your handling code here:
         if(row!=-1 && col!=-1){
@@ -253,13 +266,450 @@ public class NewJFrame_master extends javax.swing.JFrame {
             }
         }
         
-        for (int j = 1; j < colCount; j++) {
+        for (int j = 1; j <=colCount; j++) {
             for (int i = 0; i < rowCount; i++) {
-                data[i][j]=jTable_bilangan.getValueAt(i, j).toString();
+                data[i][j]= jTable_bilangan.getValueAt(i, j).toString();
             }
         }
         System.out.println(row + " "+col);
     }//GEN-LAST:event_jTable_bilanganMouseClicked
+
+    private void jTable_bilanganKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable_bilanganKeyReleased
+        // TODO add your handling code here:
+        this.row = jTable_bilangan.getSelectedRow();
+        this.col = jTable_bilangan.getSelectedColumn();
+        String sintax = "";
+        String expression = (String) jTable_bilangan.getValueAt(row, col);
+        char idx_0 = 0;
+        if (evt.getKeyCode()==KeyEvent.VK_ENTER) {
+            if(!expression.isEmpty()){
+                idx_0 = expression.charAt(0);
+            }
+            
+            Stack<String> st = new Stack();
+            st.push("$");
+            for(int i = 0;i<expression.length();i++){
+                char temp = expression.charAt(i);
+                if(temp!='('){
+                    st.push(temp+"");
+                }else{
+                    break;
+                }
+            }
+            while(!st.peek().equals("$")){
+                String param = st.pop();
+                sintax = param + sintax;
+            }
+            //System.out.println("sintax : " + sintax);
+        
+        }
+        if(sintax.equalsIgnoreCase("=concat")){
+            Stack<String> st = new Stack();
+            int startKurung = 0;
+            st.push("$");
+            for(int i = 0;i<expression.length();i++){
+                char temp = expression.charAt(i);
+                if(temp=='('){
+                    startKurung = i + 1;
+                    break;
+                }
+            }
+            while(expression.charAt(startKurung)!=')'){
+                char temp = expression.charAt(startKurung);    
+                st.push(temp+"");
+                startKurung = startKurung + 1;
+            }
+            
+            int row2 = 0;
+            String col2;
+            row2 = Integer.parseInt(st.pop())-1;
+            col2 = st.pop();
+            
+            st.pop();
+            
+            int row1 = 0;
+            String col1;
+            row1 = Integer.parseInt(st.pop())-1;
+            col1 = st.pop();
+            
+            char ke2 = col2.charAt(0);
+            char ke1 = col1.charAt(0);
+            
+            int kolomke1 = ke1;
+            kolomke1 = kolomke1-64;
+            int kolomke2 = ke2;
+            kolomke2 = kolomke2-64;
+
+            concat(row1,kolomke1,row2,kolomke2);
+            loadTable();
+            }
+        else if (sintax.equalsIgnoreCase("=left")){
+            Stack<String> st = new Stack();
+            int startKurung = 0;
+            st.push("$");
+            for(int i = 0;i<expression.length();i++){
+                char temp = expression.charAt(i);
+                if(temp=='('){
+                    startKurung = i + 1;
+                    break;
+                }
+            }
+            while(expression.charAt(startKurung)!=')'){
+                char temp = expression.charAt(startKurung);    
+                st.push(temp+"");
+                startKurung = startKurung + 1;
+            }
+            int row = 0;
+            String col;
+            row = Integer.parseInt(st.pop())-1;
+            col = st.pop();
+            char kol = col.charAt(0);
+            int kolom = kol;
+            kolom = kolom-64;
+            char left = jTable_bilangan.getValueAt(row, kolom).toString().charAt(0);
+            for (int j = 1; j <= colCount; j++) {
+                         for (int i = 0; i < rowCount; i++) {
+                            if(j==this.col && i==this.row)
+                                data[i][j]=left+"";
+                        }
+                    }
+            loadTable();
+            }
+        else if (sintax.equalsIgnoreCase("=right")){
+            Stack<String> st = new Stack();
+            int startKurung = 0;
+            st.push("$");
+            for(int i = 0;i<expression.length();i++){
+                char temp = expression.charAt(i);
+                if(temp=='('){
+                    startKurung = i + 1;
+                    break;
+                }
+            }
+            while(expression.charAt(startKurung)!=')'){
+                char temp = expression.charAt(startKurung);    
+                st.push(temp+"");
+                startKurung = startKurung + 1;
+            }
+            int row = 0;
+            String col;
+            row = Integer.parseInt(st.pop())-1;
+            col = st.pop();
+            char kol = col.charAt(0);
+            int kolom = kol;
+            kolom = kolom-64;
+            String executedString =jTable_bilangan.getValueAt(row, kolom).toString();
+            char right = executedString.charAt(executedString.length()-1);
+            for (int j = 1; j <= colCount; j++) {
+                         for (int i = 0; i < rowCount; i++) {
+                            if(j==this.col && i==this.row)
+                                data[i][j]=right+"";
+                        }
+                    }
+            loadTable();
+            }
+        else if(sintax.equalsIgnoreCase("=mid")){
+            Stack<String> st = new Stack();
+            int startKurung = 0;
+            st.push("$");
+            for(int i = 0;i<expression.length();i++){
+                char temp = expression.charAt(i);
+                if(temp=='('){
+                    startKurung = i + 1;
+                    break;
+                }
+            }
+            while(expression.charAt(startKurung)!=')'){
+                char temp = expression.charAt(startKurung);    
+                st.push(temp+"");
+                startKurung = startKurung + 1;
+            }
+            int row = 0;
+            String col;
+            row = Integer.parseInt(st.pop())-1;
+            col = st.pop();
+            char kol = col.charAt(0);
+            int kolom = kol;
+            kolom = kolom-64;
+            String executedString =jTable_bilangan.getValueAt(row, kolom).toString();
+            char mid = executedString.charAt(executedString.length()/2);
+            for (int j = 1; j <= colCount; j++) {
+                         for (int i = 0; i < rowCount; i++) {
+                            if(j==this.col && i==this.row)
+                                data[i][j]=mid+"";
+                        }
+                    }
+            loadTable();
+            }
+        else if (sintax.equalsIgnoreCase("=sum")){
+            try {
+            
+                Stack<String> st = new Stack();
+            int startKurung = 0;
+            st.push("$");
+            for(int i = 0;i<expression.length();i++){
+                char temp = expression.charAt(i);
+                if(temp=='('){
+                    startKurung = i + 1;
+                    break;
+                }
+            }
+            while(expression.charAt(startKurung)!=')'){
+                char temp = expression.charAt(startKurung);    
+                st.push(temp+"");
+                startKurung = startKurung + 1;
+            }
+            
+            int row2 = 0;
+            String col2;
+            row2 = Integer.parseInt(st.pop())-1;
+            col2 = st.pop();
+            
+            st.pop();
+            
+            int row1 = 0;
+            String col1;
+            row1 = Integer.parseInt(st.pop())-1;
+            col1 = st.pop();
+            
+            char ke2 = col2.charAt(0);
+            char ke1 = col1.charAt(0);
+            
+            int kolomke1 = ke1;
+            kolomke1 = kolomke1-64;
+            int kolomke2 = ke2;
+            kolomke2 = kolomke2-64;
+            Queue<Float> queue = new LinkedList<>();
+            float hasil=0;
+
+            for (int j = 1; j <=colCount; j++) {
+            
+             
+            for (int i = 0; i < rowCount; i++) {
+
+                
+                if(i>=row1 && i <=row2 && j==kolomke1 ){
+                    if(!jTable_bilangan.getValueAt(i, j).toString().equals("")){
+                        queue.add(Float.parseFloat(jTable_bilangan.getValueAt(i, j).toString()));
+                    }
+                }   
+            }
+            }
+            Iterator<Float> itr = queue.iterator();
+            
+                    
+                    
+                    while(itr.hasNext()){
+                        hasil+=itr.next();
+                        
+                    }
+                    
+                    data[this.row][this.col]=hasil+"";
+                    
+              
+            loadTable();
+            }
+            catch(Exception e) {
+              data[this.row][this.col]=0+"";
+              loadTable();
+            }
+            
+            
+            
+        }
+        else if( sintax.equalsIgnoreCase("=average")){
+            try {
+                
+            Stack<String> st = new Stack();
+            int startKurung = 0;
+            st.push("$");
+            for(int i = 0;i<expression.length();i++){
+                char temp = expression.charAt(i);
+                if(temp=='('){
+                    startKurung = i + 1;
+                    break;
+                }
+            }
+            while(expression.charAt(startKurung)!=')'){
+                char temp = expression.charAt(startKurung);    
+                st.push(temp+"");
+                startKurung = startKurung + 1;
+            }
+            
+            int row2 = 0;
+            String col2;
+            row2 = Integer.parseInt(st.pop())-1;
+            col2 = st.pop();
+            
+            st.pop();
+            
+            int row1 = 0;
+            String col1;
+            row1 = Integer.parseInt(st.pop())-1;
+            col1 = st.pop();
+            
+            char ke2 = col2.charAt(0);
+            char ke1 = col1.charAt(0);
+            
+            int kolomke1 = ke1;
+            kolomke1 = kolomke1-64;
+            int kolomke2 = ke2;
+            kolomke2 = kolomke2-64;
+            Queue<Float> queue = new LinkedList<>();
+
+            
+            for (int j = 1; j <=colCount; j++) {
+            
+            
+            
+            for (int i = 0; i < rowCount; i++) {
+            
+                
+                if(i>=row1 && i <=row2 && j==kolomke1 ){
+                    if(!jTable_bilangan.getValueAt(i, j).toString().equals("")){
+                        queue.add(Float.parseFloat(jTable_bilangan.getValueAt(i, j).toString()) );
+                    }
+                    data[i][j]=jTable_bilangan.getValueAt(i, j).toString();
+                }
+                
+                
+            }
+            
+        }
+            Iterator<Float> itr = queue.iterator();
+            float hasil =0;
+                    
+                    
+                    while(itr.hasNext()){
+                        hasil+=itr.next();
+                        
+                    }
+                    hasil = hasil/(row2-row1+1);
+                    data[this.row][this.col]=hasil+"";
+               
+        loadTable();
+}
+catch(Exception e) {
+        data[this.row][this.col]=0+"";
+        loadTable();
+}
+            
+        }
+        else if (idx_0=='='){
+            Stack<Character> stack = new Stack<>();
+            String postfix="";
+            char c;
+             for (int i = 1; i < expression.length(); i++) {
+                c=expression.charAt(i);
+                if(i<expression.length()-1 && Character.isLetter(c)){
+                    if(Character.isDigit(expression.charAt(i+1))){
+                        int row = 0;
+                    String col;
+                    col = Character.toString(c);
+                    row = Integer.parseInt(Character.toString((char)(expression.charAt(i+1))))-1;
+                    char ke2 = col.charAt(0);
+                    int kolom = ke2;
+                    kolom = kolom-64;
+                    float operand = Float.parseFloat(jTable_bilangan.getValueAt(row, kolom).toString());
+                    postfix+=operand+" ";
+                    }
+                    
+                }
+                else {
+                    if(c=='(') {
+                    stack.push('(');
+                    }
+                    else if(c==')'){
+                        
+                        while(!stack.isEmpty() && stack.peek()!='('){
+                        postfix+=stack.pop()+" ";
+                        }
+                        stack.pop();
+                    }
+                    else if(isOperator(c)) {
+                       
+                        while(!stack.isEmpty()&& postfixHierarchy(c)<postfixHierarchy(stack.peek())){
+                            postfix+=stack.pop() + " ";
+                        }
+                        stack.push(c);
+                    }
+                }
+            }
+             while(!stack.isEmpty()){
+                    postfix+=stack.pop()+ " ";
+                }
+             Stack<Float> calc = new Stack();
+            StringTokenizer st = new StringTokenizer(postfix);
+     while (st.hasMoreTokens()) {
+      String token = st.nextToken();
+    float x = 0;
+    float y = 0;
+    float r = 0;
+    
+    if(token.equals("+")){
+        x = calc.pop();
+        y = calc.pop();
+        r = x+y;
+        calc.push(r);
+    }
+     else if(token.equals("-")){
+        x = calc.pop();
+        y = calc.pop();
+        r = x-y;
+        calc.push(r);
+    }
+     else if(token.equals("*")){
+        x = calc.pop();
+        y = calc.pop();
+        r = x*y;
+        calc.push(r);
+    }
+     else if(token.equals("/")){
+        x = calc.pop();
+        y = calc.pop();
+        r = x/y;
+        calc.push(r);
+    }
+    else if(token.equals("^")){
+        x = calc.pop();
+        y = calc.pop();
+        r = (int) Math.pow(x, y);
+        calc.push(r);
+    }
+    else{
+       float t = Float.parseFloat(token);
+        calc.push(t);
+    }
+}
+ 
+ float a = calc.pop();
+ data[this.row][this.col]=a+"";
+            loadTable();
+            }
+            
+                
+               
+          
+                
+                
+            
+            
+        
+        for (int j = 1; j <=colCount; j++) {
+            for (int i = 0; i < rowCount; i++) {
+                data[i][j]=jTable_bilangan.getValueAt(i, j).toString();
+            }
+        }
+        
+        
+        
+        System.out.println(row + " "+col);
+    }//GEN-LAST:event_jTable_bilanganKeyReleased
+
+    private void jButton_loadTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_loadTableActionPerformed
+        // TODO add your handling code here:
+        loadTable();
+    }//GEN-LAST:event_jButton_loadTableActionPerformed
 
     /**
      * @param args the command line arguments

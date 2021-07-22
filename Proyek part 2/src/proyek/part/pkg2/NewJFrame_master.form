@@ -29,7 +29,7 @@
                   <Component id="jScrollPane1" min="-2" pref="1528" max="-2" attributes="0"/>
                   <Group type="102" attributes="0">
                       <Component id="jButton_apply" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="260" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="208" max="-2" attributes="0"/>
                       <Component id="jButton_loadTable" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
@@ -58,10 +58,15 @@
                   <Component id="jSpinner_row" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jButton_apply" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton_loadTable" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="jButton_apply" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
+                      <Component id="jButton_loadTable" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace pref="151" max="32767" attributes="0"/>
           </Group>
@@ -121,7 +126,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton_loadTable">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Load Table"/>
+        <Property name="text" type="java.lang.String" value="LOAD TABLE"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton_loadTableActionPerformed"/>
