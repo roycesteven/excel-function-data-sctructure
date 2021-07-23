@@ -8,6 +8,8 @@ package proyek.part.pkg2;
 
 
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -271,7 +273,7 @@ public class NewJFrame_master extends javax.swing.JFrame {
                 data[i][j]= jTable_bilangan.getValueAt(i, j).toString();
             }
         }
-        System.out.println(row + " "+col);
+//        System.out.println(row + " "+col);
     }//GEN-LAST:event_jTable_bilanganMouseClicked
 
     private void jTable_bilanganKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable_bilanganKeyReleased
@@ -598,10 +600,43 @@ catch(Exception e) {
         else if (idx_0=='='){
             Stack<Character> stack = new Stack<>();
             String postfix="";
-            char c;
-             for (int i = 1; i < expression.length(); i++) {
-                c=expression.charAt(i);
-                if(i<expression.length()-1 && Character.isLetter(c)){
+            boolean kalkulator=true;
+            ArrayList<String> arr = new ArrayList();
+            String temp="";
+            for (int i = 1; i < expression.length(); i++) {
+                char c=expression.charAt(i);
+                if(!isOperator(c)&& c!='(' && c!=')'){
+                    
+                    temp+= Character.toString(c);
+                    
+                }
+                else  {
+                    if(!temp.equals("")){
+                        arr.add(temp);
+                    }
+                    
+                    temp="";
+                    arr.add(Character.toString(c));
+                }
+            }
+            arr.add(temp);
+//            for (int i = 0; i < arr.size(); i++) {
+//                String get = arr.get(i);
+//                System.out.println(get);
+//                
+//            }
+            for (int i = 1; i < expression.length(); i++) {
+                char c=expression.charAt(i);
+                if(Character.isLetter(c)){
+                    kalkulator =false;
+                }
+                
+            }
+            if(!kalkulator){
+                for (int i = 1; i < expression.length(); i++) {
+                char c=expression.charAt(i);
+                
+                    if(i<expression.length()-1 && Character.isLetter(c)){
                     if(Character.isDigit(expression.charAt(i+1))){
                         int row = 0;
                     String col;
@@ -615,7 +650,10 @@ catch(Exception e) {
                     }
                     
                 }
-                else {
+                
+                
+                
+                else{
                     if(c=='(') {
                     stack.push('(');
                     }
@@ -634,14 +672,65 @@ catch(Exception e) {
                         stack.push(c);
                     }
                 }
+                    
+                
             }
              while(!stack.isEmpty()){
                     postfix+=stack.pop()+ " ";
                 }
+             
+            }
+            else if(kalkulator){
+               for (int i = 0; i < arr.size(); i++) {
+                   char[] c=arr.get(i).toCharArray();
+                
+                    if(!isOperator(c[0])&& c[0]!='(' && c[0]!=')'){
+                    
+                       
+                    postfix+= arr.get(i)+" ";
+                    
+                    
+                }
+                
+                
+                
+                else{
+                    if(c[0]=='(') {
+                    stack.push('(');
+                    }
+                    else if(c[0]==')'){
+                        
+                        while(!stack.isEmpty() && stack.peek()!='('){
+                        postfix+=stack.pop()+" ";
+                        }
+                        stack.pop();
+                    }
+                    else if(isOperator(c[0])) {
+                       
+                        while(!stack.isEmpty()&& postfixHierarchy(c[0])<postfixHierarchy(stack.peek())){
+                            postfix+=stack.pop() + " ";
+                        }
+                        stack.push(c[0]);
+                    }
+                }
+                    
+                
+            
+                    
+                
+            }
+             while(!stack.isEmpty()){
+                    postfix+=stack.pop()+ " ";
+                }
+           
+            }
+              
+             
              Stack<Float> calc = new Stack();
             StringTokenizer st = new StringTokenizer(postfix);
      while (st.hasMoreTokens()) {
       String token = st.nextToken();
+         System.out.println(token);
     float x = 0;
     float y = 0;
     float r = 0;
@@ -703,7 +792,7 @@ catch(Exception e) {
         
         
         
-        System.out.println(row + " "+col);
+//        System.out.println(row + " "+col);
     }//GEN-LAST:event_jTable_bilanganKeyReleased
 
     private void jButton_loadTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_loadTableActionPerformed
