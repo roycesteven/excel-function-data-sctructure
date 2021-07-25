@@ -32,7 +32,7 @@ public class NewJFrame_master extends javax.swing.JFrame {
     String[][] data;
     int row, col;
     int rowCount, colCount;
-    
+    String expression;
     
     /**
      * Creates new form NewJFrame_master
@@ -115,7 +115,7 @@ public class NewJFrame_master extends javax.swing.JFrame {
                 }
             }
         }
-        
+        loadTable();
     }
     
     public static boolean isOperator (char c){
@@ -140,6 +140,1336 @@ public class NewJFrame_master extends javax.swing.JFrame {
         }
         
         return -1;
+    }
+    
+    public void average(){
+        try {
+                
+            Stack<String> st = new Stack();
+            int startKurung = 0;
+            st.push("$");
+            for(int i = 0;i<expression.length();i++){
+                char temp = expression.charAt(i);
+                if(temp=='('){
+                    startKurung = i + 1;
+                    break;
+                }
+            }
+            while(expression.charAt(startKurung)!=')'){
+                char temp = expression.charAt(startKurung);    
+                st.push(temp+"");
+                startKurung = startKurung + 1;
+            }
+            
+            int row2 = 0;
+            String col2;
+            row2 = Integer.parseInt(st.pop())-1;
+            col2 = st.pop();
+            
+            st.pop();
+            
+            int row1 = 0;
+            String col1;
+            row1 = Integer.parseInt(st.pop())-1;
+            col1 = st.pop();
+            
+            char ke2 = col2.charAt(0);
+            char ke1 = col1.charAt(0);
+            
+            int kolomke1 = ke1;
+            kolomke1 = kolomke1-64;
+            int kolomke2 = ke2;
+            kolomke2 = kolomke2-64;
+            Queue<Float> queue = new LinkedList<>();
+
+            
+            for (int j = 1; j <=colCount; j++) {
+            
+            
+            
+            for (int i = 0; i < rowCount; i++) {
+            
+                
+                if(i>=row1 && i <=row2 && j==kolomke1 ){
+                    if(!jTable_bilangan.getValueAt(i, j).toString().equals("")){
+                        queue.add(Float.parseFloat(jTable_bilangan.getValueAt(i, j).toString()) );
+                    }
+                    data[i][j]=jTable_bilangan.getValueAt(i, j).toString();
+                }
+                
+                
+            }
+            
+        }
+            Iterator<Float> itr = queue.iterator();
+            float hasil =0;
+                    
+                    
+                    while(itr.hasNext()){
+                        hasil+=itr.next();
+                        
+                    }
+                    hasil = hasil/(row2-row1+1);
+                    data[this.row][this.col]=hasil+"";
+               
+        loadTable();
+}
+catch(Exception e) {
+        data[this.row][this.col]=0+"";
+        loadTable();
+}
+    }
+    
+    public void left(){
+        Stack<String> st = new Stack();
+            int startKurung = 0;
+            st.push("$");
+            for(int i = 0;i<expression.length();i++){
+                char temp = expression.charAt(i);
+                if(temp=='('){
+                    startKurung = i + 1;
+                    break;
+                }
+            }
+            while(expression.charAt(startKurung)!=')'){
+                char temp = expression.charAt(startKurung);    
+                st.push(temp+"");
+                startKurung = startKurung + 1;
+            }
+            int row = 0;
+            String col;
+            row = Integer.parseInt(st.pop())-1;
+            col = st.pop();
+            char kol = col.charAt(0);
+            int kolom = kol;
+            kolom = kolom-64;
+            char left = jTable_bilangan.getValueAt(row, kolom).toString().charAt(0);
+            for (int j = 1; j <= colCount; j++) {
+                         for (int i = 0; i < rowCount; i++) {
+                            if(j==this.col && i==this.row)
+                                data[i][j]=left+"";
+                        }
+                    }
+            loadTable();
+    }
+    
+    public void right(){
+        Stack<String> st = new Stack();
+            int startKurung = 0;
+            st.push("$");
+            for(int i = 0;i<expression.length();i++){
+                char temp = expression.charAt(i);
+                if(temp=='('){
+                    startKurung = i + 1;
+                    break;
+                }
+            }
+            while(expression.charAt(startKurung)!=')'){
+                char temp = expression.charAt(startKurung);    
+                st.push(temp+"");
+                startKurung = startKurung + 1;
+            }
+            int row = 0;
+            String col;
+            row = Integer.parseInt(st.pop())-1;
+            col = st.pop();
+            char kol = col.charAt(0);
+            int kolom = kol;
+            kolom = kolom-64;
+            String executedString =jTable_bilangan.getValueAt(row, kolom).toString();
+            char right = executedString.charAt(executedString.length()-1);
+            for (int j = 1; j <= colCount; j++) {
+                         for (int i = 0; i < rowCount; i++) {
+                            if(j==this.col && i==this.row)
+                                data[i][j]=right+"";
+                        }
+                    }
+            loadTable();
+    }
+    
+    public void mid(){
+        Stack<String> st = new Stack();
+            int startKurung = 0;
+            st.push("$");
+            for(int i = 0;i<expression.length();i++){
+                char temp = expression.charAt(i);
+                if(temp=='('){
+                    startKurung = i + 1;
+                    break;
+                }
+            }
+            while(expression.charAt(startKurung)!=')'){
+                char temp = expression.charAt(startKurung);    
+                st.push(temp+"");
+                startKurung = startKurung + 1;
+            }
+            int row = 0;
+            String col;
+            row = Integer.parseInt(st.pop())-1;
+            col = st.pop();
+            char kol = col.charAt(0);
+            int kolom = kol;
+            kolom = kolom-64;
+            String executedString =jTable_bilangan.getValueAt(row, kolom).toString();
+            char mid = executedString.charAt(executedString.length()/2);
+            for (int j = 1; j <= colCount; j++) {
+                         for (int i = 0; i < rowCount; i++) {
+                            if(j==this.col && i==this.row)
+                                data[i][j]=mid+"";
+                        }
+                    }
+            loadTable();
+    }
+    
+    public void sum(){
+        try {
+            
+                Stack<String> st = new Stack();
+            int startKurung = 0;
+            st.push("$");
+            for(int i = 0;i<expression.length();i++){
+                char temp = expression.charAt(i);
+                if(temp=='('){
+                    startKurung = i + 1;
+                    break;
+                }
+            }
+            while(expression.charAt(startKurung)!=')'){
+                char temp = expression.charAt(startKurung);    
+                st.push(temp+"");
+                startKurung = startKurung + 1;
+            }
+            
+            int row2 = 0;
+            String col2;
+            row2 = Integer.parseInt(st.pop())-1;
+            col2 = st.pop();
+            
+            st.pop();
+            
+            int row1 = 0;
+            String col1;
+            row1 = Integer.parseInt(st.pop())-1;
+            col1 = st.pop();
+            
+            char ke2 = col2.charAt(0);
+            char ke1 = col1.charAt(0);
+            
+            int kolomke1 = ke1;
+            kolomke1 = kolomke1-64;
+            int kolomke2 = ke2;
+            kolomke2 = kolomke2-64;
+            Queue<Float> queue = new LinkedList<>();
+            float hasil=0;
+
+            for (int j = 1; j <=colCount; j++) {
+            
+             
+            for (int i = 0; i < rowCount; i++) {
+
+                
+                if(i>=row1 && i <=row2 && j==kolomke1 ){
+                    if(!jTable_bilangan.getValueAt(i, j).toString().equals("")){
+                        queue.add(Float.parseFloat(jTable_bilangan.getValueAt(i, j).toString()));
+                    }
+                }   
+            }
+            }
+            Iterator<Float> itr = queue.iterator();
+            
+                    
+                    
+                    while(itr.hasNext()){
+                        hasil+=itr.next();
+                        
+                    }
+                    
+                    data[this.row][this.col]=hasil+"";
+                    
+              
+            loadTable();
+            }
+            catch(Exception e) {
+              data[this.row][this.col]=0+"";
+              loadTable();
+            }
+    }
+    
+    public void and(){
+        Stack<String> stack = new Stack<>();
+            ArrayList<String> arr = new ArrayList();
+            int startKurung = 0;
+            for(int i = 0;i<expression.length();i++){
+                char temp = expression.charAt(i);
+                if(temp=='('){
+                    startKurung = i + 1;
+                    break;
+                }
+            }
+            String temp="";
+            String temp_operator="";
+            boolean allLetter=true;
+            boolean kalkulator =true;
+            for (int i = startKurung; i < expression.length(); i++) {
+                char c=expression.charAt(i);
+                if(Character.isLetter(c)){
+                    kalkulator=false;
+                }
+            }
+            for (int i = startKurung; i < expression.length(); i++) {
+                char c=expression.charAt(i);
+                if(Character.isDigit(c)){
+                    allLetter=false;
+                }
+            }
+            for (int i = startKurung; i < expression.length(); i++) {
+                char c=expression.charAt(i);
+                if(Character.isLetterOrDigit(c)){
+                    if(!temp_operator.equals("")&&!temp_operator.equals(",")){
+                        arr.add(temp_operator);
+                    }
+                    temp_operator="";
+                    temp+= Character.toString(c);
+                    
+                }
+                else  {
+                    if(!temp.equals("") && !temp.equals(",")){
+                        arr.add(temp);
+                    }
+                    
+                    temp="";
+                    temp_operator+=Character.toString(c);
+                }
+            }
+            if(!temp.equals("")){
+                arr.add(temp);
+            }
+            
+            for (int i = 0; i < arr.size(); i++) {
+                String get = arr.get(i);
+                System.out.println(get);
+            }
+            for (int i = arr.size()-1; i>= 0; i--) {
+                String get = arr.get(i);
+                stack.push(get);
+            }
+            float val1 = 0;
+            boolean bool1 = false;
+            int row1 = 0, kolomke1 = 0;
+            String cell1 = stack.pop();
+            if(!Character.isDigit(cell1.charAt(0))){
+                String col1 = Character.toString(cell1.charAt(0));
+                char ke1 = col1.charAt(0);
+                kolomke1 = ke1;
+                kolomke1 = kolomke1-64;
+                System.out.println("kolomke1 " + kolomke1);
+                row1 = Integer.parseInt(Character.toString(cell1.charAt(1)))-1;
+                        System.out.println("row1 " + row1);
+                if(jTable_bilangan.getValueAt(row1, kolomke1).toString().equalsIgnoreCase("TRUE")){
+                    bool1=true;
+                }
+                else if(jTable_bilangan.getValueAt(row1, kolomke1).toString().equalsIgnoreCase("FALSE")){
+                    bool1=false;
+                } 
+                else{
+                    val1= Float.parseFloat((String) jTable_bilangan.getValueAt(row1, kolomke1));
+                }
+                
+            }
+            else{
+                val1= Float.parseFloat(cell1);
+            }
+            String cell2, operatorPembanding1 = null;
+            System.out.println("val1 "  + val1);
+            if(jTable_bilangan.getValueAt(row1, kolomke1).toString().equalsIgnoreCase("TRUE")||jTable_bilangan.getValueAt(row1, kolomke1).toString().equalsIgnoreCase("FALSE")){
+                cell2 = stack.pop();
+            }
+            else {
+                operatorPembanding1 = stack.pop();
+                System.out.println("operator pembanding1 " + operatorPembanding1);
+                cell2 = stack.pop();
+            }
+            
+            
+            
+            float val2 = 0;
+            boolean bool2;
+            if(!Character.isDigit(cell2.charAt(0))){
+                String col2 = Character.toString(cell2.charAt(0));
+
+            int row2 = Integer.parseInt(Character.toString(cell2.charAt(1)))-1;
+            
+            char ke2 = col2.charAt(0);
+            
+            int kolomke2 = ke2;
+            kolomke2 = kolomke2-64;
+            if(jTable_bilangan.getValueAt(row2, kolomke2).toString().equalsIgnoreCase("TRUE")){
+                bool2=true;
+                if(bool1&&bool2){
+                    data[this.row][this.col]="TRUE";
+                    loadTable();
+                    return;
+                }
+                else if(!(bool1&&bool2)){
+                    data[this.row][this.col]="FALSE";
+                    loadTable();
+                    return;
+                }
+            }
+            else if(jTable_bilangan.getValueAt(row2, kolomke2).toString().equalsIgnoreCase("FALSE")){
+                bool2=false;
+                if(bool1&&bool2){
+                    data[this.row][this.col]="TRUE";
+                    loadTable();
+                    return;
+                }
+                else{
+                    data[this.row][this.col]="FALSE";
+                    loadTable();
+                    return;
+                }
+            }
+            else if(jTable_bilangan.getValueAt(row1, kolomke1).toString().equalsIgnoreCase("TRUE")){
+                data[this.row][this.col]="TRUE";
+                loadTable();
+                return;
+            }
+            else if(jTable_bilangan.getValueAt(row1, kolomke1).toString().equalsIgnoreCase("TRUE")){
+                data[this.row][this.col]="FALSE";
+                loadTable();
+                return;
+            }
+            else{
+                val2 = Float.parseFloat((String) jTable_bilangan.getValueAt(row2, kolomke2));
+            }
+            
+            }
+            else{
+                val2=Float.parseFloat(cell2);
+            }
+            
+            System.out.println("val2 " + val2);
+            float val3;
+            String cell3 = stack.pop();
+            if(!Character.isDigit(cell3.charAt(0))){
+                String col3 = Character.toString(cell3.charAt(0));
+                char ke3 = col3.charAt(0);
+                int kolomke3 = ke3;
+                kolomke3 = kolomke3-64;
+                System.out.println("kolomke3 " + kolomke3);
+                int row3 = Integer.parseInt(Character.toString(cell3.charAt(1)))-1;
+                        System.out.println("row3 " + row3);
+                val3= Float.parseFloat((String) jTable_bilangan.getValueAt(row3, kolomke3));
+            }
+            else{
+                val3= Float.parseFloat(cell3);
+            }
+            System.out.println("val 3 " + val3);
+            String operatorPembanding2 = stack.pop();
+            System.out.println("operator pembanding2 " + operatorPembanding2);
+            String cell4 = stack.pop();
+            float val4;
+            if(!Character.isDigit(cell4.charAt(0))){
+                String col4 = Character.toString(cell4.charAt(0));
+
+            int row4 = Integer.parseInt(Character.toString(cell4.charAt(1)))-1;
+            
+            char ke4 = col4.charAt(0);
+            
+            int kolomke4 = ke4;
+            kolomke4 = kolomke4-64;
+            val4 = Float.parseFloat((String) jTable_bilangan.getValueAt(row4, kolomke4));
+            }
+            else{
+                val4=Float.parseFloat(cell4);
+            }
+            System.out.println("val4 " + val4);
+            boolean result1 = false;
+            boolean result2 = false;
+
+            if(operatorPembanding1.equals("=")){
+                if(val1==val2){
+                    result1=true;
+                }
+                else{
+                    result1=false;
+                }
+            }
+            else if(operatorPembanding1.equals("<>")){
+                if(val1==val2){
+                    result1=false;
+                }
+                else{
+                    result1=true;
+                }
+            }
+            else if(operatorPembanding1.equals("<")){
+                if(val1<val2){
+                    result1=true;
+                }
+                else{
+                    result1=false;
+                }
+            }
+            else if(operatorPembanding1.equals(">")){
+                if(val1<val2){
+                    result1=false;
+                }
+                else{
+                    result1=true;
+                }
+            }
+            else if(operatorPembanding1.equals("<=")){
+                if(val1<=val2){
+                    result1=true;
+                }
+                else{
+                    result1=false;
+                }
+            }
+            else if(operatorPembanding1.equals(">=")){
+                if(val1>=val2){
+                    result1=true;
+                }
+                else{
+                    result1=false;
+                }
+            }
+            
+            if(operatorPembanding2.equals("=")){
+                if(val3==val4){
+                    result2=true;
+                }
+                else{
+                    result2=false;
+                }
+            }
+            else if(operatorPembanding2.equals("<>")){
+                if(val3==val4){
+                    result2=false;
+                }
+                else{
+                    result2=true;
+                }
+            }
+            else if(operatorPembanding2.equals("<")){
+                if(val3<val4){
+                    result2=true;
+                }
+                else{
+                    result2=false;
+                }
+            }
+            else if(operatorPembanding2.equals(">")){
+                if(val3<val4){
+                    result2=false;
+                }
+                else{
+                    result2=true;
+                }
+            }
+            else if(operatorPembanding2.equals("<=")){
+                if(val3<=val4){
+                    result2=true;
+                }
+                else{
+                    result2=false;
+                }
+            }
+            else if(operatorPembanding2.equals(">=")){
+                if(val3>=val4){
+                    result2=true;
+                }
+                else{
+                    result2=false;
+                }
+            }
+            System.out.println("result 1 " + result1);
+            System.out.println("result 2 " + result2);
+            if(result1&&result2){
+                data[this.row][this.col]="TRUE";
+            }
+            else if(!(result1&&result2)){
+                data[this.row][this.col]="FALSE";
+            }
+            loadTable();
+    }
+    
+    public void not(){
+        Stack<String> stack = new Stack<>();
+            ArrayList<String> arr = new ArrayList();
+            int startKurung = 0;
+            for(int i = 0;i<expression.length();i++){
+                char temp = expression.charAt(i);
+                if(temp=='('){
+                    startKurung = i + 1;
+                    break;
+                }
+            }
+            String temp="";
+            String temp_operator="";
+            boolean allLetter=true;
+            boolean kalkulator =true;
+            for (int i = startKurung; i < expression.length(); i++) {
+                char c=expression.charAt(i);
+                if(Character.isLetter(c)){
+                    kalkulator=false;
+                }
+            }
+            for (int i = startKurung; i < expression.length(); i++) {
+                char c=expression.charAt(i);
+                if(Character.isDigit(c)){
+                    allLetter=false;
+                }
+            }
+            for (int i = startKurung; i < expression.length(); i++) {
+                char c=expression.charAt(i);
+                if(Character.isLetterOrDigit(c)){
+                    if(!temp_operator.equals("")){
+                        arr.add(temp_operator);
+                    }
+                    temp_operator="";
+                    temp+= Character.toString(c);
+                    
+                }
+                else  {
+                    if(!temp.equals("")){
+                        arr.add(temp);
+                    }
+                    
+                    temp="";
+                    temp_operator+=Character.toString(c);
+                }
+            }
+            if(!temp.equals("")){
+                arr.add(temp);
+            }
+            for (int i = 0; i < arr.size(); i++) {
+                String get = arr.get(i);
+                System.out.println(get);
+            }
+            if(allLetter){
+                for (int i = 0; i < arr.size(); i++) {
+                    String get = arr.get(i);
+                    if(get.equals("TRUE")){
+                        data[this.row][this.col]="FALSE";
+                        break;
+                    }
+                    else{
+                        data[this.row][this.col]="TRUE";
+                        break;
+                    }
+                }
+                loadTable();
+            }
+            else if(kalkulator){
+                for (int i = arr.size()-1; i>= 0; i--) {
+                    String get = arr.get(i);
+                    stack.push(get);
+                }
+                float operand1 = Float.parseFloat(stack.pop());
+                
+                String operatorPembanding = stack.pop();
+                
+                float operand2 = Float.parseFloat(stack.pop());
+                
+                if(operatorPembanding.equals("=")){
+                    if(operand1==operand2){
+                        data[this.row][this.col]="FALSE";
+                    }
+                    else{
+                        data[this.row][this.col]="TRUE";
+                    }
+                }
+                else if (operatorPembanding.equals("<>")){
+                    if(operand1==operand2){
+                        data[this.row][this.col]="TRUE";
+                    }
+                    else{
+                        data[this.row][this.col]="FALSE";
+                    }
+                }
+                else if (operatorPembanding.equals("<")){
+                    if(operand1<operand2){
+                        data[this.row][this.col]="FALSE";
+                    }
+                    else{
+                        data[this.row][this.col]="TRUE";
+                    }
+                }
+                else if (operatorPembanding.equals(">")){
+                    if(operand1<operand2){
+                        data[this.row][this.col]="TRUE";
+                    }
+                    else{
+                        data[this.row][this.col]="FALSE";
+                    }
+                }
+                else if (operatorPembanding.equals("<=")){
+                    if(operand1<=operand2){
+                        data[this.row][this.col]="FALSE";
+                    }
+                    else{
+                        data[this.row][this.col]="TRUE";
+                    }
+                }
+                else if (operatorPembanding.equals(">=")){
+                    if(operand1>=operand2){
+                        data[this.row][this.col]="FALSE";
+                    }
+                    else{
+                        data[this.row][this.col]="TRUE";
+                    }
+                }
+                loadTable();
+            }
+            else{
+                for (int i = arr.size()-1; i>= 0; i--) {
+                String get = arr.get(i);
+                stack.push(get);
+            }
+            float val1 = 0;
+            boolean bool1 = false;
+            String cell1 = stack.pop();
+            int row1 = 0,kolomke1 = 0;
+            if(!Character.isDigit(cell1.charAt(0))){
+                String col1 = Character.toString(cell1.charAt(0));
+                char ke1 = col1.charAt(0);
+                kolomke1 = ke1;
+                kolomke1 = kolomke1-64;
+                System.out.println("kolomke1 " + kolomke1);
+                row1 = Integer.parseInt(Character.toString(cell1.charAt(1)))-1;
+                        System.out.println("row1 " + row1);
+                if(jTable_bilangan.getValueAt(row1, kolomke1).toString().equalsIgnoreCase("TRUE")){
+                    bool1=false;
+                    
+                }
+                else if(jTable_bilangan.getValueAt(row1, kolomke1).toString().equalsIgnoreCase("FALSE")){
+                    bool1=true;
+                    
+                }
+                else{
+                    val1= Float.parseFloat((String) jTable_bilangan.getValueAt(row1, kolomke1));
+                }
+                
+            }
+            else{
+                val1= Float.parseFloat(cell1);
+            }
+            
+            String operatorPembanding = stack.pop();
+            System.out.println("operator pembanding " + operatorPembanding);
+            String cell2 = stack.pop();
+            float val2 = 0;
+            boolean bool2;
+            if(!Character.isDigit(cell2.charAt(0))){
+                String col2 = Character.toString(cell2.charAt(0));
+
+            int row2 = Integer.parseInt(Character.toString(cell2.charAt(1)))-1;
+            
+            char ke2 = col2.charAt(0);
+            
+            int kolomke2 = ke2;
+            kolomke2 = kolomke2-64;
+            if(jTable_bilangan.getValueAt(row2, kolomke2).toString().equalsIgnoreCase("TRUE")){
+                    bool2=false;
+                    if(operatorPembanding.equals("=")){
+                        if(bool1==bool2){
+                            data[this.row][this.col]="FALSE";
+                        }
+                        else{
+                            data[this.row][this.col]="TRUE";
+                        }
+                    }
+                    else if(operatorPembanding.equals("<>")){
+                        if(bool1==bool2){
+                            data[this.row][this.col]="TRUE";
+                        }
+                        else{
+                            data[this.row][this.col]="FALSE";
+                        }
+                    }
+                    
+                }
+                else if(jTable_bilangan.getValueAt(row2, kolomke2).toString().equalsIgnoreCase("FALSE")){
+                    bool2=true;
+                    if(operatorPembanding.equals("=")){
+                        if(bool1==bool2){
+                            data[this.row][this.col]="FALSE";
+                            loadTable();
+                            return;
+                        }
+                        else{
+                            data[this.row][this.col]="TRUE";
+                            loadTable();
+                            return;
+                        }
+                    }
+                    else if(operatorPembanding.equals("<>")){
+                        if(bool1==bool2){
+                            data[this.row][this.col]="TRUE";
+                            loadTable();
+                            return;
+                        }
+                        else{
+                            data[this.row][this.col]="FALSE";
+                            loadTable();
+                            return;
+                        }
+                    }
+                    
+                }
+                if(jTable_bilangan.getValueAt(row1, kolomke1).toString().equalsIgnoreCase("TRUE")){
+                    data[this.row][this.col]="FALSE";
+                    loadTable();
+                    return;
+                }
+                else if(jTable_bilangan.getValueAt(row1, kolomke1).toString().equalsIgnoreCase("FALSE")){
+                    data[this.row][this.col]="TRUE";
+                    loadTable();
+                    return;
+                }
+                else{
+                    val2 = Float.parseFloat((String) jTable_bilangan.getValueAt(row2, kolomke2));
+                }
+            
+            }
+            else{
+                val2=Float.parseFloat(cell2);
+            }
+            if(operatorPembanding.equals("=")){
+                if(val1==val2){
+                    data[this.row][this.col]="FALSE";
+                }
+                else{
+                    data[this.row][this.col]="TRUE";
+                }
+            }
+            else if (operatorPembanding.equals("<>")){
+                if(val1==val2){
+                    data[this.row][this.col]="TRUE";
+                }
+                else{
+                    data[this.row][this.col]="FALSE";
+                }
+            }
+            else if (operatorPembanding.equals("<")){
+                if(val1<val2){
+                    data[this.row][this.col]="FALSE";
+                }
+                else{
+                    data[this.row][this.col]="TRUE";
+                }
+            }
+            else if (operatorPembanding.equals(">")){
+                if(val1<val2){
+                    data[this.row][this.col]="TRUE";
+                }
+                else{
+                    data[this.row][this.col]="FALSE";
+                }
+            }
+            else if (operatorPembanding.equals("<=")){
+                if(val1<=val2){
+                    data[this.row][this.col]="FALSE";
+                }
+                else{
+                    data[this.row][this.col]="TRUE";
+                }
+            }
+            else if (operatorPembanding.equals(">=")){
+                if(val1>=val2){
+                    data[this.row][this.col]="FALSE";
+                }
+                else{
+                    data[this.row][this.col]="TRUE";
+                }
+            }
+            loadTable();
+            }
+    }
+    
+    public void ekspresiAritmatika(){
+        Stack<Character> stack = new Stack<>();
+            String postfix="";
+            boolean kalkulator=true;
+            ArrayList<String> arr = new ArrayList();
+            String temp="";
+            for (int i = 1; i < expression.length(); i++) {
+                char c=expression.charAt(i);
+                if(!isOperator(c)&& c!='(' && c!=')'){
+                    
+                    temp+= Character.toString(c);
+                    
+                }
+                else  {
+                    if(!temp.equals("")){
+                        arr.add(temp);
+                    }
+                    
+                    temp="";
+                    arr.add(Character.toString(c));
+                }
+            }
+            if(!temp.equals("")){
+                arr.add(temp);
+            }
+            
+            System.out.println(arr.size());
+            for (int i = 1; i < expression.length(); i++) {
+                char c=expression.charAt(i);
+                if(Character.isLetter(c)){
+                    kalkulator =false;
+                }
+                
+            }
+            if(!kalkulator){
+                for (int i = 0; i < arr.size(); i++) {
+                    String get = arr.get(i);
+                    System.out.println(get);
+                }
+                for (int i = 0; i < arr.size(); i++) {
+                String get = arr.get(i);
+                char  [] c = get.toCharArray();
+                float operand;
+                    if(!isOperator(get.charAt(0))&& get.charAt(0)!='(' && get.charAt(0)!=')'){
+                        if(Character.isLetter(get.charAt(0))){
+                            int row = 0;
+                    char col;
+                    col = get.charAt(0);
+                    row = Integer.parseInt(Character.toString((char)(get.charAt(1))))-1;
+                    char ke2 = col;
+                    int kolom = ke2;
+                    kolom = kolom-64;
+                    operand = Float.parseFloat(jTable_bilangan.getValueAt(row, kolom).toString());
+                    postfix+=operand+" ";
+                    }
+                        else {
+                            operand = Float.parseFloat(get);
+                            postfix+= operand+ " ";
+                        }
+                        }
+                else{
+                    if(c[0]=='(') {
+                    stack.push('(');
+                    }
+                    else if(c[0]==')'){
+                        
+                        while(!stack.isEmpty() && stack.peek()!='('){
+                        postfix+=stack.pop()+" ";
+                        }
+                        stack.pop();
+                    }
+                    else if(isOperator(c[0])) {
+                       
+                        while(!stack.isEmpty()&& postfixHierarchy(c[0])<postfixHierarchy(stack.peek())){
+                            postfix+=stack.pop() + " ";
+                        }
+                        stack.push(c[0]);
+                    }
+                }
+                    
+                
+            }
+             while(!stack.isEmpty()){
+                    postfix+=stack.pop()+ " ";
+                }
+             
+            }
+            else if(kalkulator){
+               for (int i = 0; i < arr.size(); i++) {
+                   char[] c=arr.get(i).toCharArray();
+                
+                    if(!isOperator(c[0])&& c[0]!='(' && c[0]!=')'){
+                    
+                       
+                    postfix+= arr.get(i)+" ";
+                    
+                    
+                }
+                
+                
+                
+                else{
+                    if(c[0]=='(') {
+                    stack.push('(');
+                    }
+                    else if(c[0]==')'){
+                        
+                        while(!stack.isEmpty() && stack.peek()!='('){
+                        postfix+=stack.pop()+" ";
+                        }
+                        stack.pop();
+                    }
+                    else if(isOperator(c[0])) {
+                       
+                        while(!stack.isEmpty()&& postfixHierarchy(c[0])<postfixHierarchy(stack.peek())){
+                            postfix+=stack.pop() + " ";
+                        }
+                        stack.push(c[0]);
+                    }
+                }
+                    
+                
+            
+                    
+                
+            }
+             while(!stack.isEmpty()){
+                    postfix+=stack.pop()+ " ";
+                }
+           
+            }
+              
+             
+             Stack<Float> calc = new Stack();
+            StringTokenizer st = new StringTokenizer(postfix);
+     while (st.hasMoreTokens()) {
+      String token = st.nextToken();
+         System.out.println(token);
+    float x = 0;
+    float y = 0;
+    float r = 0;
+    
+    if(token.equals("+")){
+        x = calc.pop();
+        y = calc.pop();
+        r = x+y;
+        calc.push(r);
+    }
+     else if(token.equals("-")){
+        x = calc.pop();
+        y = calc.pop();
+        r = x-y;
+        calc.push(r);
+    }
+     else if(token.equals("*")){
+        x = calc.pop();
+        y = calc.pop();
+        r = x*y;
+        calc.push(r);
+    }
+     else if(token.equals("/")){
+        x = calc.pop();
+        y = calc.pop();
+        r = x/y;
+        calc.push(r);
+    }
+    else if(token.equals("^")){
+        x = calc.pop();
+        y = calc.pop();
+        r = (int) Math.pow(x, y);
+        calc.push(r);
+    }
+    else{
+       float t = Float.parseFloat(token);
+        calc.push(t);
+    }
+}
+ 
+ float a = calc.pop();
+ data[this.row][this.col]=a+"";
+            loadTable();
+    }
+    
+    public void or(){
+        Stack<String> stack = new Stack<>();
+            ArrayList<String> arr = new ArrayList();
+            int startKurung = 0;
+            for(int i = 0;i<expression.length();i++){
+                char temp = expression.charAt(i);
+                if(temp=='('){
+                    startKurung = i + 1;
+                    break;
+                }
+            }
+            String temp="";
+            String temp_operator="";
+            boolean allLetter=true;
+            boolean kalkulator =true;
+            for (int i = startKurung; i < expression.length(); i++) {
+                char c=expression.charAt(i);
+                if(Character.isLetter(c)){
+                    kalkulator=false;
+                }
+            }
+            for (int i = startKurung; i < expression.length(); i++) {
+                char c=expression.charAt(i);
+                if(Character.isDigit(c)){
+                    allLetter=false;
+                }
+            }
+            for (int i = startKurung; i < expression.length(); i++) {
+                char c=expression.charAt(i);
+                if(Character.isLetterOrDigit(c)){
+                    if(!temp_operator.equals("")&&!temp_operator.equals(",")){
+                        arr.add(temp_operator);
+                    }
+                    temp_operator="";
+                    temp+= Character.toString(c);
+                    
+                }
+                else  {
+                    if(!temp.equals("") && !temp.equals(",")){
+                        arr.add(temp);
+                    }
+                    
+                    temp="";
+                    temp_operator+=Character.toString(c);
+                }
+            }
+            if(!temp.equals("")){
+                arr.add(temp);
+            }
+            
+            for (int i = 0; i < arr.size(); i++) {
+                String get = arr.get(i);
+                System.out.println(get);
+            }
+            for (int i = arr.size()-1; i>= 0; i--) {
+                String get = arr.get(i);
+                stack.push(get);
+            }
+            float val1 = 0;
+            boolean bool1 = false;
+            int row1 = 0, kolomke1 = 0;
+            String cell1 = stack.pop();
+            if(!Character.isDigit(cell1.charAt(0))){
+                String col1 = Character.toString(cell1.charAt(0));
+                char ke1 = col1.charAt(0);
+                kolomke1 = ke1;
+                kolomke1 = kolomke1-64;
+                System.out.println("kolomke1 " + kolomke1);
+                row1 = Integer.parseInt(Character.toString(cell1.charAt(1)))-1;
+                        System.out.println("row1 " + row1);
+                if(jTable_bilangan.getValueAt(row1, kolomke1).toString().equalsIgnoreCase("TRUE")){
+                    bool1=true;
+                }
+                else if(jTable_bilangan.getValueAt(row1, kolomke1).toString().equalsIgnoreCase("FALSE")){
+                    bool1=false;
+                } 
+                else{
+                    val1= Float.parseFloat((String) jTable_bilangan.getValueAt(row1, kolomke1));
+                }
+                
+            }
+            else{
+                val1= Float.parseFloat(cell1);
+            }
+            String cell2, operatorPembanding1 = null;
+            System.out.println("val1 "  + val1);
+            if(jTable_bilangan.getValueAt(row1, kolomke1).toString().equalsIgnoreCase("TRUE")||jTable_bilangan.getValueAt(row1, kolomke1).toString().equalsIgnoreCase("FALSE")){
+                cell2 = stack.pop();
+            }
+            else {
+                operatorPembanding1 = stack.pop();
+                System.out.println("operator pembanding1 " + operatorPembanding1);
+                cell2 = stack.pop();
+            }
+            
+            
+            
+            float val2 = 0;
+            boolean bool2;
+            if(!Character.isDigit(cell2.charAt(0))){
+                String col2 = Character.toString(cell2.charAt(0));
+
+            int row2 = Integer.parseInt(Character.toString(cell2.charAt(1)))-1;
+            
+            char ke2 = col2.charAt(0);
+            
+            int kolomke2 = ke2;
+            kolomke2 = kolomke2-64;
+            if(jTable_bilangan.getValueAt(row2, kolomke2).toString().equalsIgnoreCase("TRUE")){
+                bool2=true;
+                if(bool1||bool2){
+                    data[this.row][this.col]="TRUE";
+                    loadTable();
+                    return;
+                }
+                else if(!(bool1||bool2)){
+                    data[this.row][this.col]="FALSE";
+                    loadTable();
+                    return;
+                }
+            }
+            else if(jTable_bilangan.getValueAt(row2, kolomke2).toString().equalsIgnoreCase("FALSE")){
+                bool2=false;
+                if(bool1||bool2){
+                    data[this.row][this.col]="TRUE";
+                    loadTable();
+                    return;
+                }
+                else{
+                    data[this.row][this.col]="FALSE";
+                    loadTable();
+                    return;
+                }
+            }
+            else if(jTable_bilangan.getValueAt(row1, kolomke1).toString().equalsIgnoreCase("TRUE")){
+                data[this.row][this.col]="TRUE";
+                loadTable();
+                return;
+            }
+            else if(jTable_bilangan.getValueAt(row1, kolomke1).toString().equalsIgnoreCase("TRUE")){
+                data[this.row][this.col]="FALSE";
+                loadTable();
+                return;
+            }
+            else{
+                val2 = Float.parseFloat((String) jTable_bilangan.getValueAt(row2, kolomke2));
+            }
+            
+            }
+            else{
+                val2=Float.parseFloat(cell2);
+            }
+            
+            System.out.println("val2 " + val2);
+            float val3;
+            String cell3 = stack.pop();
+            if(!Character.isDigit(cell3.charAt(0))){
+                String col3 = Character.toString(cell3.charAt(0));
+                char ke3 = col3.charAt(0);
+                int kolomke3 = ke3;
+                kolomke3 = kolomke3-64;
+                System.out.println("kolomke3 " + kolomke3);
+                int row3 = Integer.parseInt(Character.toString(cell3.charAt(1)))-1;
+                        System.out.println("row3 " + row3);
+                val3= Float.parseFloat((String) jTable_bilangan.getValueAt(row3, kolomke3));
+            }
+            else{
+                val3= Float.parseFloat(cell3);
+            }
+            System.out.println("val 3 " + val3);
+            String operatorPembanding2 = stack.pop();
+            System.out.println("operator pembanding2 " + operatorPembanding2);
+            String cell4 = stack.pop();
+            float val4;
+            if(!Character.isDigit(cell4.charAt(0))){
+                String col4 = Character.toString(cell4.charAt(0));
+
+            int row4 = Integer.parseInt(Character.toString(cell4.charAt(1)))-1;
+            
+            char ke4 = col4.charAt(0);
+            
+            int kolomke4 = ke4;
+            kolomke4 = kolomke4-64;
+            val4 = Float.parseFloat((String) jTable_bilangan.getValueAt(row4, kolomke4));
+            }
+            else{
+                val4=Float.parseFloat(cell4);
+            }
+            System.out.println("val4 " + val4);
+            boolean result1 = false;
+            boolean result2 = false;
+
+            if(operatorPembanding1.equals("=")){
+                if(val1==val2){
+                    result1=true;
+                }
+                else{
+                    result1=false;
+                }
+            }
+            else if(operatorPembanding1.equals("<>")){
+                if(val1==val2){
+                    result1=false;
+                }
+                else{
+                    result1=true;
+                }
+            }
+            else if(operatorPembanding1.equals("<")){
+                if(val1<val2){
+                    result1=true;
+                }
+                else{
+                    result1=false;
+                }
+            }
+            else if(operatorPembanding1.equals(">")){
+                if(val1<val2){
+                    result1=false;
+                }
+                else{
+                    result1=true;
+                }
+            }
+            else if(operatorPembanding1.equals("<=")){
+                if(val1<=val2){
+                    result1=true;
+                }
+                else{
+                    result1=false;
+                }
+            }
+            else if(operatorPembanding1.equals(">=")){
+                if(val1>=val2){
+                    result1=true;
+                }
+                else{
+                    result1=false;
+                }
+            }
+            
+            if(operatorPembanding2.equals("=")){
+                if(val3==val4){
+                    result2=true;
+                }
+                else{
+                    result2=false;
+                }
+            }
+            else if(operatorPembanding2.equals("<>")){
+                if(val3==val4){
+                    result2=false;
+                }
+                else{
+                    result2=true;
+                }
+            }
+            else if(operatorPembanding2.equals("<")){
+                if(val3<val4){
+                    result2=true;
+                }
+                else{
+                    result2=false;
+                }
+            }
+            else if(operatorPembanding2.equals(">")){
+                if(val3<val4){
+                    result2=false;
+                }
+                else{
+                    result2=true;
+                }
+            }
+            else if(operatorPembanding2.equals("<=")){
+                if(val3<=val4){
+                    result2=true;
+                }
+                else{
+                    result2=false;
+                }
+            }
+            else if(operatorPembanding2.equals(">=")){
+                if(val3>=val4){
+                    result2=true;
+                }
+                else{
+                    result2=false;
+                }
+            }
+            System.out.println("result 1 " + result1);
+            System.out.println("result 2 " + result2);
+            if(result1||result2){
+                data[this.row][this.col]="TRUE";
+            }
+            else if(!(result1||result2)){
+                data[this.row][this.col]="FALSE";
+            }
+            loadTable();
     }
 
     /**
@@ -281,7 +1611,7 @@ public class NewJFrame_master extends javax.swing.JFrame {
         this.row = jTable_bilangan.getSelectedRow();
         this.col = jTable_bilangan.getSelectedColumn();
         String sintax = "";
-        String expression = (String) jTable_bilangan.getValueAt(row, col);
+        expression = (String) jTable_bilangan.getValueAt(row, col);
         char idx_0 = 0;
         if (evt.getKeyCode()==KeyEvent.VK_ENTER) {
             if(!expression.isEmpty()){
@@ -343,456 +1673,44 @@ public class NewJFrame_master extends javax.swing.JFrame {
             kolomke2 = kolomke2-64;
 
             concat(row1,kolomke1,row2,kolomke2);
-            loadTable();
             }
         else if (sintax.equalsIgnoreCase("=left")){
-            Stack<String> st = new Stack();
-            int startKurung = 0;
-            st.push("$");
-            for(int i = 0;i<expression.length();i++){
-                char temp = expression.charAt(i);
-                if(temp=='('){
-                    startKurung = i + 1;
-                    break;
-                }
-            }
-            while(expression.charAt(startKurung)!=')'){
-                char temp = expression.charAt(startKurung);    
-                st.push(temp+"");
-                startKurung = startKurung + 1;
-            }
-            int row = 0;
-            String col;
-            row = Integer.parseInt(st.pop())-1;
-            col = st.pop();
-            char kol = col.charAt(0);
-            int kolom = kol;
-            kolom = kolom-64;
-            char left = jTable_bilangan.getValueAt(row, kolom).toString().charAt(0);
-            for (int j = 1; j <= colCount; j++) {
-                         for (int i = 0; i < rowCount; i++) {
-                            if(j==this.col && i==this.row)
-                                data[i][j]=left+"";
-                        }
-                    }
-            loadTable();
+            left();
             }
         else if (sintax.equalsIgnoreCase("=right")){
-            Stack<String> st = new Stack();
-            int startKurung = 0;
-            st.push("$");
-            for(int i = 0;i<expression.length();i++){
-                char temp = expression.charAt(i);
-                if(temp=='('){
-                    startKurung = i + 1;
-                    break;
-                }
-            }
-            while(expression.charAt(startKurung)!=')'){
-                char temp = expression.charAt(startKurung);    
-                st.push(temp+"");
-                startKurung = startKurung + 1;
-            }
-            int row = 0;
-            String col;
-            row = Integer.parseInt(st.pop())-1;
-            col = st.pop();
-            char kol = col.charAt(0);
-            int kolom = kol;
-            kolom = kolom-64;
-            String executedString =jTable_bilangan.getValueAt(row, kolom).toString();
-            char right = executedString.charAt(executedString.length()-1);
-            for (int j = 1; j <= colCount; j++) {
-                         for (int i = 0; i < rowCount; i++) {
-                            if(j==this.col && i==this.row)
-                                data[i][j]=right+"";
-                        }
-                    }
-            loadTable();
+            right();
             }
         else if(sintax.equalsIgnoreCase("=mid")){
-            Stack<String> st = new Stack();
-            int startKurung = 0;
-            st.push("$");
-            for(int i = 0;i<expression.length();i++){
-                char temp = expression.charAt(i);
-                if(temp=='('){
-                    startKurung = i + 1;
-                    break;
-                }
+            mid();
             }
-            while(expression.charAt(startKurung)!=')'){
-                char temp = expression.charAt(startKurung);    
-                st.push(temp+"");
-                startKurung = startKurung + 1;
-            }
-            int row = 0;
-            String col;
-            row = Integer.parseInt(st.pop())-1;
-            col = st.pop();
-            char kol = col.charAt(0);
-            int kolom = kol;
-            kolom = kolom-64;
-            String executedString =jTable_bilangan.getValueAt(row, kolom).toString();
-            char mid = executedString.charAt(executedString.length()/2);
-            for (int j = 1; j <= colCount; j++) {
-                         for (int i = 0; i < rowCount; i++) {
-                            if(j==this.col && i==this.row)
-                                data[i][j]=mid+"";
-                        }
-                    }
-            loadTable();
-            }
-        else if (sintax.equalsIgnoreCase("=sum")){
-            try {
-            
-                Stack<String> st = new Stack();
-            int startKurung = 0;
-            st.push("$");
-            for(int i = 0;i<expression.length();i++){
-                char temp = expression.charAt(i);
-                if(temp=='('){
-                    startKurung = i + 1;
-                    break;
-                }
-            }
-            while(expression.charAt(startKurung)!=')'){
-                char temp = expression.charAt(startKurung);    
-                st.push(temp+"");
-                startKurung = startKurung + 1;
-            }
-            
-            int row2 = 0;
-            String col2;
-            row2 = Integer.parseInt(st.pop())-1;
-            col2 = st.pop();
-            
-            st.pop();
-            
-            int row1 = 0;
-            String col1;
-            row1 = Integer.parseInt(st.pop())-1;
-            col1 = st.pop();
-            
-            char ke2 = col2.charAt(0);
-            char ke1 = col1.charAt(0);
-            
-            int kolomke1 = ke1;
-            kolomke1 = kolomke1-64;
-            int kolomke2 = ke2;
-            kolomke2 = kolomke2-64;
-            Queue<Float> queue = new LinkedList<>();
-            float hasil=0;
-
-            for (int j = 1; j <=colCount; j++) {
-            
-             
-            for (int i = 0; i < rowCount; i++) {
-
-                
-                if(i>=row1 && i <=row2 && j==kolomke1 ){
-                    if(!jTable_bilangan.getValueAt(i, j).toString().equals("")){
-                        queue.add(Float.parseFloat(jTable_bilangan.getValueAt(i, j).toString()));
-                    }
-                }   
-            }
-            }
-            Iterator<Float> itr = queue.iterator();
-            
-                    
-                    
-                    while(itr.hasNext()){
-                        hasil+=itr.next();
-                        
-                    }
-                    
-                    data[this.row][this.col]=hasil+"";
-                    
-              
-            loadTable();
-            }
-            catch(Exception e) {
-              data[this.row][this.col]=0+"";
-              loadTable();
-            }
-            
-            
-            
+        else if (sintax.equalsIgnoreCase("=sum")){      
+            sum();
         }
         else if( sintax.equalsIgnoreCase("=average")){
-            try {
-                
-            Stack<String> st = new Stack();
-            int startKurung = 0;
-            st.push("$");
-            for(int i = 0;i<expression.length();i++){
-                char temp = expression.charAt(i);
-                if(temp=='('){
-                    startKurung = i + 1;
-                    break;
-                }
-            }
-            while(expression.charAt(startKurung)!=')'){
-                char temp = expression.charAt(startKurung);    
-                st.push(temp+"");
-                startKurung = startKurung + 1;
-            }
-            
-            int row2 = 0;
-            String col2;
-            row2 = Integer.parseInt(st.pop())-1;
-            col2 = st.pop();
-            
-            st.pop();
-            
-            int row1 = 0;
-            String col1;
-            row1 = Integer.parseInt(st.pop())-1;
-            col1 = st.pop();
-            
-            char ke2 = col2.charAt(0);
-            char ke1 = col1.charAt(0);
-            
-            int kolomke1 = ke1;
-            kolomke1 = kolomke1-64;
-            int kolomke2 = ke2;
-            kolomke2 = kolomke2-64;
-            Queue<Float> queue = new LinkedList<>();
-
-            
-            for (int j = 1; j <=colCount; j++) {
-            
-            
-            
-            for (int i = 0; i < rowCount; i++) {
-            
-                
-                if(i>=row1 && i <=row2 && j==kolomke1 ){
-                    if(!jTable_bilangan.getValueAt(i, j).toString().equals("")){
-                        queue.add(Float.parseFloat(jTable_bilangan.getValueAt(i, j).toString()) );
-                    }
-                    data[i][j]=jTable_bilangan.getValueAt(i, j).toString();
-                }
-                
-                
-            }
+            average();
             
         }
-            Iterator<Float> itr = queue.iterator();
-            float hasil =0;
-                    
-                    
-                    while(itr.hasNext()){
-                        hasil+=itr.next();
-                        
-                    }
-                    hasil = hasil/(row2-row1+1);
-                    data[this.row][this.col]=hasil+"";
-               
-        loadTable();
-}
-catch(Exception e) {
-        data[this.row][this.col]=0+"";
-        loadTable();
-}
+        else if( sintax.equalsIgnoreCase("=if")){
             
+        }
+        else if ( sintax.equalsIgnoreCase("=and")){
+            and();
+        }
+        else if ( sintax.equalsIgnoreCase("=or")){
+            or();
+        }
+        else if ( sintax.equalsIgnoreCase("=not")){
+            not();
         }
         else if (idx_0=='='){
-            Stack<Character> stack = new Stack<>();
-            String postfix="";
-            boolean kalkulator=true;
-            ArrayList<String> arr = new ArrayList();
-            String temp="";
-            for (int i = 1; i < expression.length(); i++) {
-                char c=expression.charAt(i);
-                if(!isOperator(c)&& c!='(' && c!=')'){
-                    
-                    temp+= Character.toString(c);
-                    
-                }
-                else  {
-                    if(!temp.equals("")){
-                        arr.add(temp);
-                    }
-                    
-                    temp="";
-                    arr.add(Character.toString(c));
-                }
+            ekspresiAritmatika();
             }
-            arr.add(temp);
-//            for (int i = 0; i < arr.size(); i++) {
-//                String get = arr.get(i);
-//                System.out.println(get);
-//                
-//            }
-            for (int i = 1; i < expression.length(); i++) {
-                char c=expression.charAt(i);
-                if(Character.isLetter(c)){
-                    kalkulator =false;
-                }
-                
-            }
-            if(!kalkulator){
-                for (int i = 1; i < expression.length(); i++) {
-                char c=expression.charAt(i);
-                
-                    if(i<expression.length()-1 && Character.isLetter(c)){
-                    if(Character.isDigit(expression.charAt(i+1))){
-                        int row = 0;
-                    String col;
-                    col = Character.toString(c);
-                    row = Integer.parseInt(Character.toString((char)(expression.charAt(i+1))))-1;
-                    char ke2 = col.charAt(0);
-                    int kolom = ke2;
-                    kolom = kolom-64;
-                    float operand = Float.parseFloat(jTable_bilangan.getValueAt(row, kolom).toString());
-                    postfix+=operand+" ";
-                    }
-                    
-                }
-                
-                
-                
-                else{
-                    if(c=='(') {
-                    stack.push('(');
-                    }
-                    else if(c==')'){
-                        
-                        while(!stack.isEmpty() && stack.peek()!='('){
-                        postfix+=stack.pop()+" ";
-                        }
-                        stack.pop();
-                    }
-                    else if(isOperator(c)) {
-                       
-                        while(!stack.isEmpty()&& postfixHierarchy(c)<postfixHierarchy(stack.peek())){
-                            postfix+=stack.pop() + " ";
-                        }
-                        stack.push(c);
-                    }
-                }
-                    
-                
-            }
-             while(!stack.isEmpty()){
-                    postfix+=stack.pop()+ " ";
-                }
-             
-            }
-            else if(kalkulator){
-               for (int i = 0; i < arr.size(); i++) {
-                   char[] c=arr.get(i).toCharArray();
-                
-                    if(!isOperator(c[0])&& c[0]!='(' && c[0]!=')'){
-                    
-                       
-                    postfix+= arr.get(i)+" ";
-                    
-                    
-                }
-                
-                
-                
-                else{
-                    if(c[0]=='(') {
-                    stack.push('(');
-                    }
-                    else if(c[0]==')'){
-                        
-                        while(!stack.isEmpty() && stack.peek()!='('){
-                        postfix+=stack.pop()+" ";
-                        }
-                        stack.pop();
-                    }
-                    else if(isOperator(c[0])) {
-                       
-                        while(!stack.isEmpty()&& postfixHierarchy(c[0])<postfixHierarchy(stack.peek())){
-                            postfix+=stack.pop() + " ";
-                        }
-                        stack.push(c[0]);
-                    }
-                }
-                    
-                
-            
-                    
-                
-            }
-             while(!stack.isEmpty()){
-                    postfix+=stack.pop()+ " ";
-                }
-           
-            }
-              
-             
-             Stack<Float> calc = new Stack();
-            StringTokenizer st = new StringTokenizer(postfix);
-     while (st.hasMoreTokens()) {
-      String token = st.nextToken();
-         System.out.println(token);
-    float x = 0;
-    float y = 0;
-    float r = 0;
-    
-    if(token.equals("+")){
-        x = calc.pop();
-        y = calc.pop();
-        r = x+y;
-        calc.push(r);
-    }
-     else if(token.equals("-")){
-        x = calc.pop();
-        y = calc.pop();
-        r = x-y;
-        calc.push(r);
-    }
-     else if(token.equals("*")){
-        x = calc.pop();
-        y = calc.pop();
-        r = x*y;
-        calc.push(r);
-    }
-     else if(token.equals("/")){
-        x = calc.pop();
-        y = calc.pop();
-        r = x/y;
-        calc.push(r);
-    }
-    else if(token.equals("^")){
-        x = calc.pop();
-        y = calc.pop();
-        r = (int) Math.pow(x, y);
-        calc.push(r);
-    }
-    else{
-       float t = Float.parseFloat(token);
-        calc.push(t);
-    }
-}
- 
- float a = calc.pop();
- data[this.row][this.col]=a+"";
-            loadTable();
-            }
-            
-                
-               
-          
-                
-                
-            
-            
-        
+
         for (int j = 1; j <=colCount; j++) {
             for (int i = 0; i < rowCount; i++) {
                 data[i][j]=jTable_bilangan.getValueAt(i, j).toString();
             }
         }
-        
-        
-        
-//        System.out.println(row + " "+col);
     }//GEN-LAST:event_jTable_bilanganKeyReleased
 
     private void jButton_loadTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_loadTableActionPerformed
